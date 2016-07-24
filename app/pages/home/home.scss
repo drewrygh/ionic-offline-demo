@@ -1,0 +1,70 @@
+.home {
+
+  background: -moz-linear-gradient(90deg, #85DDF8 0%, #0095F9 100%); /* ff3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #0095F9), color-stop(100%, #85DDF8)); /* safari4+,chrome */
+  background: -webkit-linear-gradient(90deg, #85DDF8 0%, #0095F9 100%); /* safari5.1+,chrome10+ */
+  background: -o-linear-gradient(90deg, #85DDF8 0%, #0095F9 100%); /* opera 11.10+ */
+  background: -ms-linear-gradient(90deg, #85DDF8 0%, #0095F9 100%); /* ie10+ */
+  background: linear-gradient(0deg, #85DDF8 0%, #0095F9 100%); /* w3c */
+
+  ion-icon[name="wifi"] {font-size: 5em; color: #fff; }
+  ion-icon {font-size: 12em; color: #fff; margin-bottom: 90px;}
+
+  .weather {
+    height: 100%;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .city {
+      font-size: 1.1em;
+      font-weight: 400;
+      line-height: 30px;
+      height: 30px;
+      vertical-align: middle;
+      color: #fff;
+    }
+
+    .weather-data {
+      padding-bottom: 5px;
+      background-color: #81D2FA;
+      width: 100%;
+    }
+
+    ion-segment {
+      position: absolute;
+      top: 0;
+    }
+
+    .temp-current {
+      font-size: 4em;
+      font-weight: 100;
+      vertical-align: middle;
+      color: #fff;
+    }
+
+    .temp-high-low {
+      font-size: 1.3em;
+      font-weight: 300;
+      vertical-align: middle;
+      color: #fff;
+      span {
+        margin: 0 3px;
+      }
+    }
+
+    .no-internet {
+      .no-internet-message {
+        font-size: 0.8em;
+        line-height: 1.6em;
+      }
+    }
+  }
+
+  
+
+  
+
+}
