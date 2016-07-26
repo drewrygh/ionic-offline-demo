@@ -8,7 +8,7 @@ import {Geolocation} from 'ionic-native';
 import {Storage, SqlStorage} from 'ionic-angular';
 
 @Component({
-  templateUrl: 'build/pages/home/home.html'
+  templateUrl: 'build/pages/home/home.html',
 })
 export class HomePage {
 
@@ -32,14 +32,12 @@ export class HomePage {
       tempMax INT
      )`);
 
-    this.fetchForecasts();
-
     this.getForecast(this.getToday()).then((data) => {
       if (data) {
         // obtained forecast from database
         this.data = data;
       } else {
-        // could not get forecast from database, getting from network
+        // could not get forecast from database, go to network
         this.fetchForecasts();
       }
     });
@@ -85,6 +83,8 @@ export class HomePage {
       this.storage.set('latitude', data.coords.latitude);
       this.storage.set('longitude', data.coords.longitude);
       return data.coords;
+    }, (err) => {
+      console.log('positionError', err);
     });
   }
 
@@ -123,7 +123,7 @@ export class HomePage {
   }
 
   getForecast(date: string) {
-    return this.storage.query(`SELECT * FROM forecasts WHERE date = '${date}'`).then((resp) => {
+    return this.storage.query("SELECT * FROM forecasts WHERE date = ?", [date]).then((resp) => {
       if (resp.res.rows.length > 0) {
         for (var i = 0; i < resp.res.rows.length; i++) {
           let item = resp.res.rows.item(i);
@@ -134,13 +134,14 @@ export class HomePage {
   }
 
   saveForecasts = (forecasts) => {
+    let query = "INSERT OR REPLACE INTO forecasts VALUES (?, ?, ?, ?, ?, ?)";
     for (let forecast of forecasts) {
-      this.storage.query(`INSERT OR REPLACE INTO forecasts VALUES('${forecast.date}',
-                                                                  '${forecast.location}',
-                                                                  '${forecast.icon}',
-                                                                   ${forecast.tempCurrent},
-                                                                   ${forecast.tempMin},
-                                                                   ${forecast.tempMax})`);
+      this.storage.query(query, [forecast.date,
+                                 forecast.location,
+                                 forecast.icon,
+                                 forecast.tempCurrent,
+                                 forecast.tempMin,
+                                 forecast.tempMax]);
     }
     return forecasts;
   }
