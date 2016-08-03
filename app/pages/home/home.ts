@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import {NavController} from 'ionic-angular';
-import {DetailPage} from '../detail/detail';
 import {Http, Response, Headers} from '@angular/http';
 import {URLSearchParams, Jsonp} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
@@ -14,6 +13,9 @@ export class HomePage {
 
   public data: any;
   public errorMessage: any;
+  public storage: Storage
+  public city: string;
+  public state: string;
   public mapsApiUrl: string = "https://maps.googleapis.com/maps/api/geocode/json";
   public mapsApiKey: string = "AIzaSyC_BzkNOG-dUL7jsCPXnrS5D-cFTaEcrZE";
   private weatherApiUrl: string = "https://api.forecast.io/forecast/";
@@ -199,11 +201,11 @@ export class HomePage {
   // DATES
 
   getToday() {
-    let timestamp = (Date.now() / 1000).toString();
+    let timestamp = (Date.now() / 1000);
     return this.dateFromTimestamp(timestamp);
   }
 
-  dateFromTimestamp(timestamp: string) {
+  dateFromTimestamp(timestamp: number) {
     let date = new Date(timestamp * 1000);
     return date.getMonth().toString() + '/' + date.getDate().toString();
   }
