@@ -5,7 +5,8 @@ import {Http, Response, Headers} from '@angular/http';
 import {URLSearchParams, Jsonp} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Geolocation} from 'ionic-native';
-import {Storage, SqlStorage} from 'ionic-angular';
+// [Step 1 - Using SqlStorage]
+// import {Storage, SqlStorage} from 'ionic-angular';
 
 @Component({
   templateUrl: 'build/pages/home/home.html',
@@ -22,25 +23,27 @@ export class HomePage {
   constructor(private _navController: NavController, private jsonp: Jsonp, private http: Http) {
     
     this.data = {};
-    this.storage = new Storage(SqlStorage);
-    this.storage.query(`CREATE TABLE IF NOT EXISTS forecasts(
-      date CHAR(5) PRIMARY KEY,
-      location CHAR(40),
-      icon CHAR(30),
-      tempCurrent INT,
-      tempMin INT,
-      tempMax INT
-     )`);
+    // [Step 2 - Creating Tables]
+    // this.storage = new Storage(SqlStorage);
+    // this.storage.query(`CREATE TABLE IF NOT EXISTS forecasts(
+    //   date CHAR(5) PRIMARY KEY,
+    //   location CHAR(40),
+    //   icon CHAR(30),
+    //   tempCurrent INT,
+    //   tempMin INT,
+    //   tempMax INT
+    //  )`);
 
-    this.getForecast(this.getToday()).then((data) => {
-      if (data) {
-        // obtained forecast from database
-        this.data = data;
-      } else {
-        // could not get forecast from database, go to network
-        this.fetchForecasts();
-      }
-    });
+    // [Step 5 - Tying it Together]
+    // this.getForecast(this.getToday()).then((data) => {
+    //   if (data) {
+    //     // obtained forecast from database
+    //     this.data = data;
+    //   } else {
+    //     // could not get forecast from database, go to network
+    //     this.fetchForecasts();
+    //   }
+    // });
 
   }
 
@@ -122,29 +125,31 @@ export class HomePage {
     });
   }
 
-  getForecast(date: string) {
-    return this.storage.query("SELECT * FROM forecasts WHERE date = ?", [date]).then((resp) => {
-      if (resp.res.rows.length > 0) {
-        for (var i = 0; i < resp.res.rows.length; i++) {
-          let item = resp.res.rows.item(i);
-          return item;
-        }
-      }
-    });
-  }
+  // [Step 4 - Retreiving Data]
+  // getForecast(date: string) {
+  //   return this.storage.query("SELECT * FROM forecasts WHERE date = ?", [date]).then((resp) => {
+  //     if (resp.res.rows.length > 0) {
+  //       for (var i = 0; i < resp.res.rows.length; i++) {
+  //         let item = resp.res.rows.item(i);
+  //         return item;
+  //       }
+  //     }
+  //   });
+  // }
 
-  saveForecasts = (forecasts) => {
-    let query = "INSERT OR REPLACE INTO forecasts VALUES (?, ?, ?, ?, ?, ?)";
-    for (let forecast of forecasts) {
-      this.storage.query(query, [forecast.date,
-                                 forecast.location,
-                                 forecast.icon,
-                                 forecast.tempCurrent,
-                                 forecast.tempMin,
-                                 forecast.tempMax]);
-    }
-    return forecasts;
-  }
+  // [Step 3 - Saving Data]
+  // saveForecasts = (forecasts) => {
+  //   let query = "INSERT OR REPLACE INTO forecasts VALUES (?, ?, ?, ?, ?, ?)";
+  //   for (let forecast of forecasts) {
+  //     this.storage.query(query, [forecast.date,
+  //                                forecast.location,
+  //                                forecast.icon,
+  //                                forecast.tempCurrent,
+  //                                forecast.tempMin,
+  //                                forecast.tempMax]);
+  //   }
+  //   return forecasts;
+  // }
 
   // UTILITY
 
