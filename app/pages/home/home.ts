@@ -14,8 +14,8 @@ export class HomePage {
   public data: any;
   public errorMessage: any;
   public storage: Storage
-  public mapsApiUrl: string = "https://maps.googleapis.com/maps/api/geocode/json";
-  public mapsApiKey: string = "AIzaSyC_BzkNOG-dUL7jsCPXnrS5D-cFTaEcrZE";
+  private mapsApiUrl: string = "https://maps.googleapis.com/maps/api/geocode/json";
+  private mapsApiKey: string = "AIzaSyC_BzkNOG-dUL7jsCPXnrS5D-cFTaEcrZE";
   private weatherApiUrl: string = "https://api.forecast.io/forecast/";
   private weatherApiKey: string = "44e49e44a5eb1237bffcfb78aa33ffbb";
 
