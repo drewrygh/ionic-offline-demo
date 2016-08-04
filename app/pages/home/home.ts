@@ -14,8 +14,6 @@ export class HomePage {
   public data: any;
   public errorMessage: any;
   public storage: Storage
-  public city: string;
-  public state: string;
   public mapsApiUrl: string = "https://maps.googleapis.com/maps/api/geocode/json";
   public mapsApiKey: string = "AIzaSyC_BzkNOG-dUL7jsCPXnrS5D-cFTaEcrZE";
   private weatherApiUrl: string = "https://api.forecast.io/forecast/";
@@ -92,6 +90,8 @@ export class HomePage {
 
   fetchCityStateName(lat, long) {
     let url = `${this.mapsApiUrl}?latlng=${lat},${long}&key=${this.mapsApiKey}`;
+    let city: string;
+    let state: string;
     this.http.get(url)
       .map(res => {
           return res.json();
@@ -99,13 +99,13 @@ export class HomePage {
       .subscribe(
         data => { data.results[0].address_components.map( (item) => {
           if (item.types[0] === "locality") {
-            this.city = item.long_name;
+            city = item.long_name;
           }
           if (item.types[0] === "administrative_area_level_1") {
-            this.state = item.short_name;
+            state = item.short_name;
           }
         });
-        let location = `${this.city}, ${this.state}`;
+        let location = `${city}, ${state}`;
         this.data.location = location;
         this.saveLocation(location);
         }
