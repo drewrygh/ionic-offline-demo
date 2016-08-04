@@ -1,6 +1,5 @@
 import {Component} from "@angular/core";
 import {NavController} from 'ionic-angular';
-import {DetailPage} from '../detail/detail';
 import {Http, Response, Headers} from '@angular/http';
 import {URLSearchParams, Jsonp} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
@@ -15,8 +14,9 @@ export class HomePage {
 
   public data: any;
   public errorMessage: any;
-  public mapsApiUrl: string = "https://maps.googleapis.com/maps/api/geocode/json";
-  public mapsApiKey: string = "AIzaSyC_BzkNOG-dUL7jsCPXnrS5D-cFTaEcrZE";
+  public storage: Storage
+  private mapsApiUrl: string = "https://maps.googleapis.com/maps/api/geocode/json";
+  private mapsApiKey: string = "AIzaSyC_BzkNOG-dUL7jsCPXnrS5D-cFTaEcrZE";
   private weatherApiUrl: string = "https://api.forecast.io/forecast/";
   private weatherApiKey: string = "44e49e44a5eb1237bffcfb78aa33ffbb";
 
@@ -93,6 +93,8 @@ export class HomePage {
 
   fetchCityStateName(lat, long) {
     let url = `${this.mapsApiUrl}?latlng=${lat},${long}&key=${this.mapsApiKey}`;
+    let city: string;
+    let state: string;
     this.http.get(url)
       .map(res => {
           return res.json();
@@ -100,13 +102,13 @@ export class HomePage {
       .subscribe(
         data => { data.results[0].address_components.map( (item) => {
           if (item.types[0] === "locality") {
-            this.city = item.long_name;
+            city = item.long_name;
           }
           if (item.types[0] === "administrative_area_level_1") {
-            this.state = item.short_name;
+            state = item.short_name;
           }
         });
-        let location = `${this.city}, ${this.state}`;
+        let location = `${city}, ${state}`;
         this.data.location = location;
         this.saveLocation(location);
         }
@@ -204,11 +206,11 @@ export class HomePage {
   // DATES
 
   getToday() {
-    let timestamp = (Date.now() / 1000).toString();
+    let timestamp = (Date.now() / 1000);
     return this.dateFromTimestamp(timestamp);
   }
 
-  dateFromTimestamp(timestamp: string) {
+  dateFromTimestamp(timestamp: number) {
     let date = new Date(timestamp * 1000);
     return date.getMonth().toString() + '/' + date.getDate().toString();
   }
