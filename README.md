@@ -4,7 +4,7 @@ A simple weather app with offline support. Inspired by [Sol](https://github.com/
 
 ## Usage
 
-Check out the [blog series](http://ionic.io) to learn how to set up this demo app, and to learn about its offline capabilities.
+Check out the [blog series](http://blog.ionic.io/building-an-ionic-app-with-offline-support-part-1/) to learn how to set up this demo app, and to learn about its offline capabilities.
 
 ## Screenshot
 
